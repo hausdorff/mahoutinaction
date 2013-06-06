@@ -28,3 +28,16 @@
         w          (String. termBuffer 0 termLen)]
     (.addToVector encoder w 1.0 v1)
     (printf "%s\n" (SequentialAccessSparseVector. v1))))
+
+(defn setting-up-vector-encoders
+  "converts text and line counts into vector values"
+  []
+  (let [traceDictionary (TreeMap.)
+        encoder         (StaticWordValueEncoder. "body")
+        bias            (ConstantValueEncoder. "Intercept")
+        lines           (ConstantValueEncoder. "LInes")
+        analyzer        (StandardAnalyzer. (Version/LUCENE_31))]
+    (.setProbes encoder 2)
+    (.setTraceDictionary encoder traceDictionary)
+    (.setTraceDictionary bias traceDictionary)
+    (.setTraceDictionary lines traceDictionary)))
