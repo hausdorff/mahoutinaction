@@ -41,3 +41,11 @@
     (.setTraceDictionary encoder traceDictionary)
     (.setTraceDictionary bias traceDictionary)
     (.setTraceDictionary lines traceDictionary)))
+
+(defn configuring-the-learning-algorithm
+  [numFeatures 10000]
+  (let [learningAlgorithm (OnlineLogisticRegression. 20 numFeatures (L1.))]
+    (.alpha learningAlgorithm 1)
+    (.decayExponent learningAlgorithm 0.9)
+    (.lambda learningAlgorithm 3.0e-5)
+    (.learningRate learningAlgorithm 20)))
