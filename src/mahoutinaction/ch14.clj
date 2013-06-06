@@ -49,3 +49,13 @@
     (.decayExponent learningAlgorithm 0.9)
     (.lambda learningAlgorithm 3.0e-5)
     (.learningRate learningAlgorithm 20)))
+
+(defn accessing-data-files
+  []
+  (let [base       (File. "resources/20news-bydate-train/")
+        files      (ArrayList.)
+        newsGroups (Dictionary.)]
+    (for [newsgroup (.listFiles base)]
+      (do
+       (.intern newsGroups (.getName newsgroup))
+       (.addAll files (Arrays/asList (.listFiles newsgroup)))))))
