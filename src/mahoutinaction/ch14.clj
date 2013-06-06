@@ -1,12 +1,18 @@
 (ns mahoutinaction.ch14
-  (:import [java.io StringReader]
+  (:import [java.io File]
+           [java.io StringReader]
+           [java.util ArrayList]
+           [java.util Arrays]
+           [java.util TreeMap]
            [org.apache.lucene.analysis TokenStream]
            [org.apache.lucene.analysis.tokenattributes TermAttribute]
            [org.apache.lucene.analysis.standard StandardAnalyzer]
            [org.apache.lucene.util Version]
+           [org.apache.mahout.classifier.sgd OnlineLogisticRegression L1]
            [org.apache.mahout.math RandomAccessSparseVector]
            [org.apache.mahout.math SequentialAccessSparseVector]
-           [org.apache.mahout.vectorizer.encoders StaticWordValueEncoder]))
+           [org.apache.mahout.vectorizer.encoders StaticWordValueEncoder
+            ConstantValueEncoder Dictionary]))
 
 (defn tokenizing-and-vectorizing-text
   "tokenizes, vectorizes, and prints a piece of text"
