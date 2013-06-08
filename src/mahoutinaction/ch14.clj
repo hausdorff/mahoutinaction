@@ -17,22 +17,22 @@
 
 (defn classify-ex
   []
-  (let [traceDictionary (TreeMap.)
-        encoder         (StaticWordValueEncoder. "body")
-        bias            (ConstantValueEncoder. "Intercept")
-        lines           (ConstantValueEncoder. "Lines")
-        analyzer        (StandardAnalyzer. (Version/LUCENE_31))
+  (let [traceDictionary   (TreeMap.)
+        encoder           (StaticWordValueEncoder. "body")
+        bias              (ConstantValueEncoder. "Intercept")
+        lines             (ConstantValueEncoder. "Lines")
+        analyzer          (StandardAnalyzer. (Version/LUCENE_31))
         numFeatures       10000
         learningAlgorithm (OnlineLogisticRegression. 20 numFeatures (L1.))
-        base       (File. "resources/20news-bydate-train/")
-        files      (ArrayList.)
-        newsGroups (Dictionary.)
-        averageLL        0.0
-        averageCorrect   0.0
-        averageLineCount 0.0
-        k                0
-        step             0.0
-        bumps            [1 2 5]
+        base              (File. "resources/20news-bydate-train/")
+        files             (ArrayList.)
+        newsGroups        (Dictionary.)
+        averageLL         0.0
+        averageCorrect    0.0
+        averageLineCount  0.0
+        k                 0
+        step              0.0
+        bumps             [1 2 5]
         ]
     (.setProbes encoder 2)
     (.setTraceDictionary encoder traceDictionary)
