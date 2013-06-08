@@ -1,10 +1,7 @@
 (ns mahoutinaction.ch14
-  (:import [java.io File]
-           [java.io StringReader]
-           [java.util ArrayList]
-           [java.util Arrays]
-           [java.util Collections]
-           [java.util TreeMap]
+  (:import [com.google.common.collect ConcurrentHashMultiset]
+           [java.io BufferedReader File FileReader StringReader]
+           [java.util ArrayList Arrays Collections TreeMap]
            [org.apache.lucene.analysis TokenStream]
            [org.apache.lucene.analysis.tokenattributes TermAttribute]
            [org.apache.lucene.analysis.standard StandardAnalyzer]
