@@ -47,19 +47,13 @@
       (.addAll files (Arrays/asList (.listFiles newsgroup))))
     (Collections/shuffle files)
     (printf "%d training files\n", (.size files))
-    ))
 
-(defn tokenizing-and-vectorizing-text
-  "tokenizes, vectorizes, and prints a piece of text"
-  []
-  (let [encoder    (StaticWordValueEncoder. "text")
-        analyzer   (StandardAnalyzer. (Version/LUCENE_31))
-        in         (StringReader. "text to magically vectorize")
-        ts         (.tokenStream analyzer "body", in)
-        termAtt    (.addAttribute ts TermAttribute)
-        v1         (RandomAccessSparseVector. 100)
-        termBuffer (.termBuffer termAtt)
-        termLen    (.termLength termAtt)
-        w          (String. termBuffer 0 termLen)]
-    (.addToVector encoder w 1.0 v1)
-    (printf "%s\n" (SequentialAccessSparseVector. v1))))
+    (doseq [file files]
+      (let [reader     (BufferedReader. (FileReader. file))
+            ng         (.. file getParentFile getName)
+            actual     (.intern newsGroups ng)
+            words      (ConcurrentHashMultiset/create)
+            line-count (atom 0)]
+        (dorun (map #(proc-line % line-count) (line-seq reader)))
+        ))
+    ))
