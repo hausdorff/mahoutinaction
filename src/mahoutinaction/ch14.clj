@@ -3,8 +3,9 @@
            [java.io BufferedReader File FileReader StringReader]
            [java.util ArrayList Arrays Collections TreeMap]
            [org.apache.lucene.analysis TokenStream]
-           [org.apache.lucene.analysis.tokenattributes TermAttribute]
            [org.apache.lucene.analysis.standard StandardAnalyzer]
+           [org.apache.lucene.analysis.tokenattributes CharTermAttribute
+            TermAttribute]
            [org.apache.lucene.util Version]
            [org.apache.mahout.classifier.sgd OnlineLogisticRegression L1]
            [org.apache.mahout.math RandomAccessSparseVector]
@@ -14,6 +15,25 @@
 
 
 (def features 10000)
+
+
+(defn lzy-tok-seq
+  "generates lazy-seq of token attributes"
+  [ts]
+  (let [nxt (. ts incrementToken)]
+    (cond
+     (nil? nxt) '()
+     :else      (cons (. (. ts getAttribute CharTermAttribute) toString)
+                      (lazy-seq (lzy-tok-seq ts))))))
+
+(defn count-words
+  "generates counts for each token; main effect is a side-effect on `words`
+
+  Analyzer -> Collection Strings -> Reader"
+  [analyzer words in]
+  (let [ts (. analyzer tokenStream "text" in)]
+    (. ts addAtrribute CharTermAttribute)
+    (dorun (map #(. words add %) (lzy-tok-seq ts)))))
 
 (defn classify-ex
   []
