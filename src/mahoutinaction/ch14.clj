@@ -54,6 +54,6 @@
             actual     (.intern newsGroups ng)
             words      (ConcurrentHashMultiset/create)
             line-count (atom 0)]
-        (dorun (map #(proc-line % line-count) (line-seq reader)))
+        (dorun (map #(proc-line % line-count words) (line-seq reader)))
         ))
     ))
